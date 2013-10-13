@@ -12,9 +12,8 @@ public class SpawnObjects : MonoBehaviour {
 	public int yTiles;
 	public int randomThreshold; 
 	
-
-	
 	public GameObject[,] tileMap; //make 3d array later for tileheights?
+	public TileProperties TileProperties;
 	
 	// Use this for initialization
 	void Start () 
@@ -32,17 +31,23 @@ public class SpawnObjects : MonoBehaviour {
 				spawnPosition.x += i * (spawnAreaWidth/xTiles);
 				spawnPosition.y += j * (spawnAreaHeight/yTiles);
 				GameObject newObject = Instantiate(spawnObject,spawnPosition,spawnObject.transform.rotation) as GameObject;
-
+				
+				//generates random grid of tiles
 				random = Random.Range(0,100);
 				if(random >= randomThreshold)
 				{
-					newObject.renderer.material.color = Color.black;		
+					newObject.renderer.material.color = Color.black;	
+					TileProperties = newObject.GetComponent<TileProperties>();
+					TileProperties.walkable = false; //does this change only one tiles walkable or all?
 				}
 				else
 				{
-					newObject.renderer.material.color = Color.white;	
+					newObject.renderer.material.color = Color.white;
+					TileProperties = newObject.GetComponent<TileProperties>();
+					TileProperties.walkable = true;
 				}
 				newObject.transform.parent = transform; //makes objects children of manager
+				
 				//s.i = i; //save indexes of squares
 				//s.j = j;
 				//newObject.GetComponent<SelectPath>().i = i;
@@ -55,7 +60,6 @@ public class SpawnObjects : MonoBehaviour {
 				//print ("after array i,j:"+i.ToString()+ ":" +j.ToString());
 			}
 		}	
-		
 	}
 	
 	// Update is called once per frame

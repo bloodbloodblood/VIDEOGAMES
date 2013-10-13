@@ -3,18 +3,19 @@ using System.Collections;
 
 public class SelectPath : MonoBehaviour 
 {
+	public AStarPathFind AStarPathFind;
+	
+	
 	//public int i, j;
 	
-	private bool firstCube, secondCube;
-	private int firstI, firstJ, secondI, secondJ;
+	private bool selectStart;
+	private GameObject start, finish;
 	
 	
 	// Use this for initialization
 	void Start () 
 	{
-		//print ("even starting??? in here??? ");
-		//firstCube = false;
-		//secondCube = false;
+		selectStart = true;
 	}
 	
 	// Update is called once per frame
@@ -22,28 +23,43 @@ public class SelectPath : MonoBehaviour
 	
 	}
 	
-	//void Clicked()
-	//{
-	//	renderer.material.color = Color.green;
-	//}
-	
- 	void OnMouseDown()
+	public void pathSet(GameObject tile)
 	{
-		if(!firstCube && (renderer.material.color != Color.black))
+		if(selectStart)
 		{
-			print ("first: " + firstCube);
-			renderer.material.color = Color.green;
-			//firstI = i;
-			//firstJ = j;
-			this.firstCube = true;
+			tile.renderer.material.color = Color.green;
+			selectStart = false;
+			start = tile;
+			
 		}
-		else if(renderer.material.color != Color.black && firstCube && !secondCube)
+		else
 		{
-			print ("2nd");			
-			renderer.material.color = Color.green;
-			//secondI = i;
-			//secondJ = j;
-			this.secondCube = true;
+			tile.renderer.material.color = Color.green;
+			selectStart = true;
+			finish = tile;
+			AStarPathFind.SearchPath(start, finish);
 		}
- 	}   	
+	}
+	
+	
+// 	void OnMouseDown()
+//	{
+//		if(!selectStart && (renderer.material.color != Color.black))
+//		{
+//			print ("first: " + selectStart);
+//			renderer.material.color = Color.green;
+//			//firstI = i;
+//			//firstJ = j;
+//			this.selectStart = true;
+//		}
+//		else if(renderer.material.color != Color.black && selectStart && !secondCube)
+//		{
+//			print ("2nd");			
+//			renderer.material.color = Color.green;
+//			//secondI = i;
+//			//secondJ = j;
+//			this.secondCube = true;
+//		}
+// 	}   
+	
 }
